@@ -30,9 +30,7 @@ public class ServerClass {
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-        finally {
 
-        }
 
 
     }
