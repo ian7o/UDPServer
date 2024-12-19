@@ -12,7 +12,8 @@ public class ServerClass {
 //        clientSocket.receive(receivedPacket);
 //
         try {
-            DatagramSocket serverSocket = new DatagramSocket(6624);
+            DatagramSocket serverSocket = new DatagramSocket(9987);
+
             //nao preciso mas pode ajudar
             System.out.println("server ligado");
             // buffer que vou receber
@@ -20,18 +21,18 @@ public class ServerClass {
             // fiz o pacote
             DatagramPacket receivePacket = new DatagramPacket(receivedBuffer, receivedBuffer.length);
             // vou receber o pacote
-            serverSocket.receive(receivePacket);
-            // converti o pacote recebido em string para poder ler
-            String messageReceived = new String(receivePacket.getData(),0,receivePacket.getLength());
-            System.out.println(messageReceived);
-            // fechei o pacote
-            serverSocket.close();
+
+            while (true) {
+
+                serverSocket.receive(receivePacket);
+                // converti o pacote recebido em string para poder ler
+                String messageReceived = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                System.out.println(messageReceived);
+                // tentei fechar o pacote
+            }
 
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 }
