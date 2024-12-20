@@ -3,18 +3,10 @@ import java.net.*;
 
 public class ServerClass {
     public void receivAndSentMensageServerSide() throws IOException {
-        // como estava antes
-//        DatagramSocket clientSocket = new DatagramSocket(6624);
-//        byte[] reciveBuffer = new byte[1024];
-//        while (true){
-//        DatagramPacket receivedPacket = new DatagramPacket(reciveBuffer,reciveBuffer.length);
-//
-//        clientSocket.receive(receivedPacket);
-//
         try {
+            //abri um socket
             DatagramSocket serverSocket = new DatagramSocket(9987);
 
-            //nao preciso mas pode ajudar
             System.out.println("server ligado");
             // buffer que vou receber
             byte[] receivedBuffer = new byte[1024];
@@ -23,13 +15,27 @@ public class ServerClass {
             // vou receber o pacote
 
             while (true) {
-
                 serverSocket.receive(receivePacket);
                 // converti o pacote recebido em string para poder ler
                 String messageReceived = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 System.out.println(messageReceived);
-                // tentei fechar o pacote
+                break;
             }
+            //agora vou mandar uma resposta para o cliente
+            String sendSessage = "Mensagem recebida, tenha um otimo dia";
+            //converti de string para bytes
+            byte[] sendbuffer = sendSessage.getBytes();
+            //consegui as informações de quem me mandou mensagem
+            InetAddress clientAddress = receivePacket.getAddress();
+            int getPort = receivePacket.getPort();
+            //fiz o pacote
+            DatagramPacket sendPacket = new DatagramPacket(
+                    sendbuffer,
+                    sendbuffer.length,
+                    clientAddress,getPort);
+            //vou enviar e receber o pacote
+            serverSocket.send(sendPacket);
+            serverSocket.close();
 
         } catch (SocketException e) {
             throw new RuntimeException(e);
